@@ -14,3 +14,4 @@ libraryDependencies ++= Seq(
 
 
 routesGenerator := InjectedRoutesGenerator
+includeFilter in (Assets, LessKeys.less) := "main.less"|"login.less"
