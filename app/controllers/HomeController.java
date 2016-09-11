@@ -4,7 +4,9 @@ import play.*;
 import play.mvc.*;
 import play.data.*;
 import static play.data.Form.*;
+import javax.inject.*;
 
+import services.InitialData;
 import models.*;
 import views.html.*;
 
@@ -13,6 +15,9 @@ import views.html.*;
  * to the application's home page.
  */
 public class HomeController extends Controller {
+	
+	@Inject
+	InitialData initialData;
 
     public Result index() {
         return ok(index.render(Project.find.all(),Task.find.all()));
