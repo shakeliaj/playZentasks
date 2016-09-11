@@ -10,9 +10,6 @@ import com.avaje.ebean.*;
 import javax.inject.*;
 
 
-
-
-
 @Singleton
 public class InitialData {
 
