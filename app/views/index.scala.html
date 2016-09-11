@@ -1,8 +1,5 @@
-@*
- * This template takes a single argument, a String containing a
- * message to display.
- *@
-@(message: String)
+
+@(project: List[Project], todoTasks: List[Task])
 
 @*
  * Call the `main` template with two arguments. The first
@@ -11,10 +8,36 @@
  *@
 @main("Welcome to Play") {
 
-    @*
-     * Get an `Html` object by calling the built-in Play welcome
-     * template and passing a `String` message.
-     *@
-    @play20.welcome(message, style = "Java")
+   <header>
+   	<hgroup>
+   		<h1>Dashboard</h1>
+   		<h2>Tasks Over All Projects</h2>
+   	</hgroup>
+   </header>
+   
+   <article class="tasks">
+   		@todoTasks.groupBy(_.project).map{ case(project,tasks) =>
+   				<div class="folder" data-folder-id="@project.id">
+   					<header>
+   						<h3>@project.name</h3>
+   					</header>
+   					<ul class="list">
+   						@for(task <- tasks){
+   							<li data-task-id="@task.id">
+   								<h4>@task.title</h4>
+   								@if(task.dueDate != null){
+   									<time datetime="@task.dueDate">
+   										@task.dueDate.format("MMM dd yyyy")</time>	
+   								}
+   								@if(task.assignedTo != null && task.assignedTo.email != null){
+   									<span class="assignedTo">@task.assignedTo.email</span>	
+   								}
+   							</li>
+   						}
+   					</ul>
+   				</div>
+   		}
+   </article>
+   
 
 }
