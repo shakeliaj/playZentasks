@@ -23,7 +23,12 @@ public class HomeController extends Controller {
         return ok(index.render(Project.find.all(),Task.find.all()));
     }
 
-    public static Result login(){
+    public Result login(){
     	return ok(login.render());
+    }
+    
+    public static class Login{
+    	public String email;
+    	public String password;
     }
 }
