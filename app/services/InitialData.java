@@ -12,9 +12,14 @@ import javax.inject.*;
 
 @Singleton
 public class InitialData {
+	
+	public static int initialDataInit = 0;
 
 	@Inject
 	public InitialData(){
+			
+		if(initialDataInit == 0){	
+			initialDataInit = 1;
 		
 			@SuppressWarnings("unchecked")
 			Map<String,List<Object>> all = (Map<String,List<Object>>) Yaml.load("initial-data.yml");
@@ -29,5 +34,7 @@ public class InitialData {
 			for(Object task: all.get("tasks")){
 				Ebean.save(task);
 			}
+		}
+		else{}
 	}
 }
