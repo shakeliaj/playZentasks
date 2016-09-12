@@ -18,13 +18,14 @@ public class HomeController extends Controller {
 	
 	@Inject
 	InitialData initialData;
+	FormFactory formFactory;
 
     public Result index() {
         return ok(index.render(Project.find.all(),Task.find.all()));
     }
 
     public Result login(){
-    	return ok(login.render());
+    	return ok(login.render(formFactory.form(Login.class)));
     }
     
     public static class Login{
