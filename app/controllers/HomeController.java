@@ -28,8 +28,24 @@ public class HomeController extends Controller {
     	return ok(login.render(formFactory.form(Login.class)));
     }
     
+    public Result authenticate(){
+    	Form<Login> loginForm = formFactory.form(Login.class).bindFromRequest();
+    	if(loginForm.hasErrors()){
+    		return badRequest(login.render(loginForm));
+    	}
+    	else{
+    		session().clear();
+    	}
+    }
     public static class Login{
     	public String email;
     	public String password;
+    	
+    	public String validate(){
+    		if(User.authenticate(email,password)==null){
+    			return "Invalid user or password";
+    		}
+    		return null;
+    	}
     }
 }
