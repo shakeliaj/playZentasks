@@ -2,7 +2,7 @@
 called from index.scala.html for rendering the body of the webpage
  *@
  @import java.util._
-@(projects: java.util.List[Project])(body: Html)
+@(projects: List[Project])(body: Html)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,8 +19,7 @@ called from index.scala.html for rendering the body of the webpage
        <nav>
        		<h4 class="dashboard"><a href="#/">Dashboard</a></h4>
        		<ul id="projects">
-       			@projects.groupBy(_.folder).map{
-       				case(group,projects) => {
+       			@projects.groupBy(_.folder).map{ case(group,projects) => {
        					@views.html.projects.group(group,projects)
        				}	
        			}
