@@ -35,6 +35,8 @@ public class HomeController extends Controller {
     	}
     	else{
     		session().clear();
+    		session("email",loginForm.get().email);
+    		return redirect(controllers.routes.HomeController.index());
     	}
     }
     public static class Login{
