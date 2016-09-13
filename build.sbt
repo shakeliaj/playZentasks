@@ -15,3 +15,4 @@ libraryDependencies ++= Seq(
 
 routesGenerator := InjectedRoutesGenerator
 includeFilter in (Assets, LessKeys.less) := "main.less"|"login.less"
+EclipseKeys.preTasks := Seq(compile in Compile)
