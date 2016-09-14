@@ -18,6 +18,7 @@ public class HomeController extends Controller {
 	
 	@Inject
 	InitialData initialData;
+	@Inject
 	FormFactory formFactory;
 
     public Result index() {
