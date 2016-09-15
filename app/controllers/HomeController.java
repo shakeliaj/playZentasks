@@ -25,7 +25,11 @@ public class HomeController extends Controller {
 
 	@Security.Authenticated(Secured.class)
     public Result index() {
-        return ok(index.render(Project.find.all(),Task.find.all()));
+        return ok(index.render(
+        		Project.findInvolving(request().username()),
+        		Task.findToDoInvolving(request().username()),
+        		User.find.byId(request().username())
+        ));
     }
 
     public Result login(){

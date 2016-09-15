@@ -1,12 +1,12 @@
 @import java.util._
-@(projects: java.util.List[Project], todoTasks: List[Task])
+@(projects: java.util.List[Project], todoTasks: List[Task], user: User)
 
 @*
  * Call the `main` template with two arguments. The first
  * argument is a `String` with the title of the page, the second
  * argument is an `Html` object containing the body of the page.
  *@
-@main(projects) {
+@main(projects, user) {
 
    <header>
    	<hgroup>
