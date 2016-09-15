@@ -85,4 +85,14 @@ public class LoginTest extends WithApplication{
 		);
 		assertEquals(200,result.status());
 	}
+	@Test
+	public void notAuthenticated(){
+		Call tryThis = controllers.routes.HomeController.index();
+		Result result = route(requestBuilder
+				.method(tryThis.method())
+				.uri(tryThis.url())
+		);
+		assertEquals(303,result.status());
+		assertEquals("/login",result.header("Location").get());
+	}
 }

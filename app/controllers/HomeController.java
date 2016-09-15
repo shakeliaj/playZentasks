@@ -4,11 +4,13 @@ import play.*;
 import play.mvc.*;
 import play.data.*;
 import static play.data.Form.*;
+import play.data.validation.Constraints.*;
 import javax.inject.*;
 
 import services.InitialData;
 import models.*;
 import views.html.*;
+
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -41,6 +43,7 @@ public class HomeController extends Controller {
     		return redirect(controllers.routes.HomeController.index());
     	}
     }
+    
     public static class Login{
     	public String email;
     	public String password;
