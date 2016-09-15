@@ -44,6 +44,12 @@ public class HomeController extends Controller {
     	}
     }
     
+    public Result logout(){
+    	session().clear();
+    	flash("success","You've been logged out.");
+    	return redirect(controllers.routes.HomeController.login());
+    }
+    
     public static class Login{
     	public String email;
     	public String password;
