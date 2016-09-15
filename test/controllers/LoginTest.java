@@ -5,28 +5,27 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 import java.util.*;
-
 import play.mvc.*;
+import play.mvc.Http.*;
 import play.libs.*;
 import play.test.*;
+import play.Logger;
 import static play.test.Helpers.*;
-import play.data.FormFactory;
-import play.data.Form;
+
 
 import com.avaje.ebean.Ebean;
 import com.google.common.collect.ImmutableMap;
-import controllers.HomeController.Login;
-import javax.inject.*;
+
 
 
 public class LoginTest extends WithApplication{
-	@Inject
-	FormFactory formFactory;
+	
+	static RequestBuilder requestBuilder = new RequestBuilder();
 	
 	@Before
 	public void setUp(){
 		start(fakeApplication(inMemoryDatabase()));
-		@SuppressWarnings("unchecked")
+		/*@SuppressWarnings("unchecked")
 		Map<String, List<Object>> all = (Map<String, List<Object>>) Yaml.load("test-data.yml");
 		
 		for(Object user: all.get("users")){
@@ -42,29 +41,35 @@ public class LoginTest extends WithApplication{
 		for(Object task: all.get("tasks")){
 			//save tasks
 			Ebean.save(task);
-		}
+		}*/
 		
 	}
 	@Test
 	public void authenticateSuccess(){
-		Form<HomeController.Login> info = new Form<HomeController.Login>();
-		info.put("email","bob@example.com");
-		info.put("password","secret");
-		Result result = callAction(
-			controllers.routes.HomeController.authenticate(),
-			fakeRequest().withFormUrlEncodedBody(formFactory.form(Login.class).bind(info))
+		Map<String,String> fillInfo = new HashMap<>();
+		fillInfo.put("email","bob@example.com");
+		fillInfo.put("password","secret");
+		final Call tryAuthenticate = controllers.routes.HomeController.authenticate();
+		Result result = route(requestBuilder.
+				method(tryAuthenticate.method())
+				.uri(tryAuthenticate.url())
+				.bodyForm(fillInfo)
 		);
-		assertEquals(302, result.status());
+		assertEquals(303, result.status());
 		assertEquals("bob@example.com",result.session().get("email"));
 	}
 	@Test
 	public void authenticateFailure(){
-		Result result = callAction(
-			controllers.routes.HomeController.authenticate(),
-			fakeRequest().withFormUrlBodyEncodedBody(ImmutableMap.of("email","bob@example.com","password","badpassword"))
+		Map<String,String> info = new HashMap<>();
+		info.put("email","bob@example.com");
+		info.put("password","badpassword");
+		final Call tryAuthenticate = controllers.routes.HomeController.authenticate();
+		Result result = route(requestBuilder.
+				method(tryAuthenticate.method())
+				.uri(tryAuthenticate.url())
+				.bodyForm(info)	
 		);
 		assertEquals(400,result.status());
 		assertNull(result.session().get("email"));
-		
 	}
 }
