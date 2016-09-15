@@ -25,7 +25,7 @@ public class LoginTest extends WithApplication{
 	@Before
 	public void setUp(){
 		start(fakeApplication(inMemoryDatabase()));
-		/*@SuppressWarnings("unchecked")
+		@SuppressWarnings("unchecked")
 		Map<String, List<Object>> all = (Map<String, List<Object>>) Yaml.load("test-data.yml");
 		
 		for(Object user: all.get("users")){
@@ -41,7 +41,7 @@ public class LoginTest extends WithApplication{
 		for(Object task: all.get("tasks")){
 			//save tasks
 			Ebean.save(task);
-		}*/
+		}
 		
 	}
 	@Test
@@ -71,5 +71,18 @@ public class LoginTest extends WithApplication{
 		);
 		assertEquals(400,result.status());
 		assertNull(result.session().get("email"));
+	}
+	@Test
+	public void authenticated(){
+		Map<String,String> fillInfo = new HashMap<>();
+		fillInfo.put("email","bob@example.com");
+		fillInfo.put("password","secret");
+		Call tryThis = controllers.routes.HomeController.index();
+		Result result = route(requestBuilder
+				.method(tryThis.method())
+				.uri(tryThis.url())
+				.session(fillInfo)
+		);
+		assertEquals(200,result.status());
 	}
 }

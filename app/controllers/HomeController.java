@@ -21,6 +21,7 @@ public class HomeController extends Controller {
 	@Inject
 	FormFactory formFactory;
 
+	@Security.Authenticated(Secured.class)
     public Result index() {
         return ok(index.render(Project.find.all(),Task.find.all()));
     }
